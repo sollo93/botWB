@@ -20,7 +20,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'  # например 3.10 или 3.11
+        python-version: '3.13.5'  # например 3.10 или 3.11
 
     - name: Install dependencies
       run: |
