@@ -9,10 +9,6 @@ jobs:
   run-wildberries-bot:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./botWB  # запуск из папки botWB
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -20,7 +16,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.13.5'  # укажите нужную версию Python
+        python-version: '3.11'
 
     - name: Install dependencies
       run: |
