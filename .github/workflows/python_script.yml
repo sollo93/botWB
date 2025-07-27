@@ -1,0 +1,47 @@
+name: Run Wildberries Bot
+
+on:
+  push:
+    branches:
+      - main  # или ваша основная ветка
+
+jobs:
+  run-wildberries-bot:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./botWB  # все команды запускаются из папки botWB
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'  # например 3.10 или 3.11
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Wildberries Review Script
+      run: python avto_scan_wb(my).py
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        EMAIL_LOGIN: ${{ secrets.EMAIL_LOGIN }}
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+        GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+
+    - name: Save generated reports as artifacts
+      if: success()
+      uses: actions/upload-artifact@v3
+      with:
+        name: wildberries-reports
+        path: |
+          *.txt
